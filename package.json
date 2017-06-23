@@ -1,0 +1,16 @@
+{
+  "name": "atamu-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "cafemoca",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^11.1.0",
+    "dotenv": "^4.0.0",
+    "moment": "^2.18.1"
+  }
+}
