@@ -22,25 +22,26 @@ client.on('message', message => {
   switch (command) {
     case '/hello':
       message.reply('こんにちはー')
-      break
+      return
 
     case '/boss':
       let reply = buildBossTimeMessage(now)
       message.reply(reply)
-      break
+      return
 
     case '/time':
       message.reply(`今は${now.format('LLLL')}らしいよ`)
-      break
+      return
 
     case '/rename':
       if (args[0] === undefined || args.length !== 1) {
         message.reply('/rename [名前] って入力してね')
-        break
+        return
       }
       client.user.setUsername(args[0])
         .then(user => message.reply(`名前が${client.user.username}に変わったよ！`))
         .catch(console.error)
+      return
   }
 })
 
@@ -73,20 +74,31 @@ const buildBossTimeMessage = now => {
   let isDk = dkPassed >= 0
 
   // output
-  return '\n' +
-    `${output1('カスパー', isCaspa)}\n\t\t${output2(caspaPassed, 30)}\n\n` +
-    `${output1('1ドレ', isDr1)}\n\t\t${output2(dr1Passed, 60)}\n\n` +
-    `${output1('2ドレ', isDr2)}\n\t\t${output2(dr2Passed, 90)}\n\n` +
-    `${output1('アデン', isAden)}\n\t\t${output2(adenPassed, 120)}\n\n` +
-    `${output1('オーレン', isOren)}\n\t\t${output2(orenPassed, 150)}\n\n` +
-    `${output1('DK', isDk)}\n\t\t${output2(dkPassed, 210)}\n\n`
+  return `
+${output1('カスパー', isCaspa)}
+\t\t${output2(caspaPassed, 30)}
+
+${output1('1ドレ', isDr1)}
+\t\t${output2(dr1Passed, 60)}
+
+${output1('2ドレ', isDr2)}
+\t\t${output2(dr2Passed, 90)}
+
+${output1('アデン', isAden)}
+\t\t${output2(adenPassed, 120)}
+
+${output1('オーレン', isOren)}
+\t\t${output2(orenPassed, 150)}
+
+${output1('DK', isDk)}
+\t\t${output2(dkPassed, 210)}
+`
 }
 
-const output1 = (name, inTime) => {
-  return inTime
+const output1 = (name, inTime) => 
+  inTime
     ? `:sunny: **${name}タイム**: タイム中だよ！`
     : `:new_moon: **${name}タイム**: ちがう…`
-}
 
 const output2 = (passed, range) => {
   let remain = passed >= 0 ? range - passed : -passed
